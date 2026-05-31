@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Medical History | Smile Dental Clinic</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+  <!-- Admin Nav -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+    <div class="container">
+      <a class="navbar-brand text-white fw-bold" href="../index.html">
+        <i class="bi bi-shield-lock me-2 text-info"></i>Smile<span>Admin</span>
+      </a>
+      <div class="collapse navbar-collapse" id="adminNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link text-white-50" href="dashboard.html">Appointments</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="history.html">Patient History</a></li>
+          <li class="nav-item ms-lg-3">
+            <a class="btn btn-outline-info btn-sm rounded-pill px-3" href="../index.html"><i class="bi bi-box-arrow-right me-1"></i>View Site</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <header class="py-5 bg-white border-bottom mb-4">
+    <div class="container">
+      <h1 class="fw-bold mb-1">Patient Treatment Records</h1>
+      <p class="text-muted mb-0">Search historical dental operations, diagnostic charts, and print patient prescriptions.</p>
+    </div>
+  </header>
+
+  <main class="pb-5">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Search & Info Panel -->
+        <div class="col-lg-4">
+          <div class="admin-card mb-4">
+            <h5 class="fw-bold mb-3 text-primary"><i class="bi bi-search me-2"></i>Find Patient Record</h5>
+            <form id="search-patient-form">
+              <div class="input-group mb-3">
+                <input type="text" id="search-phone" class="form-control" placeholder="Enter Phone Number (e.g. 9821098210)" required>
+                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Patient Summary Card (Hidden by default, shown when record exists) -->
+          <div id="patient-info-card" class="admin-card bg-white" style="display: none;">
+            <h5 class="fw-bold mb-3 border-bottom pb-2 text-primary"><i class="bi bi-person-badge me-2"></i>Patient Profile</h5>
+            <p class="mb-1"><span class="text-muted small">Name:</span> <strong class="d-block" id="profile-name">-</strong></p>
+            <p class="mb-1"><span class="text-muted small">Phone:</span> <strong class="d-block" id="profile-phone">-</strong></p>
+            <p class="mb-3"><span class="text-muted small">Email:</span> <strong class="d-block" id="profile-email">-</strong></p>
+            <hr>
+            <button class="btn btn-gradient w-100" data-bs-toggle="collapse" data-bs-target="#newRecordFormContainer"><i class="bi bi-plus-circle me-1"></i>Add Visit Log</button>
+          </div>
+        </div>
+
+        <!-- Timeline & Entry Column -->
+        <div class="col-lg-8">
+          <!-- Add Record Form (Collapsible) -->
+          <div class="collapse mb-4" id="newRecordFormContainer">
+            <div class="p-4 bg-white border rounded-4 shadow-sm">
+              <h4 class="fw-bold text-primary mb-3"><i class="bi bi-file-earmark-medical me-2"></i>New Treatment Entry</h4>
+              
+              <form id="new-history-form">
+                <div class="row g-3">
+                  <div class="col-sm-6">
+                    <label for="history-date" class="form-label small fw-semibold">Visit Date *</label>
+                    <input type="date" class="form-control" id="history-date" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="history-doctor" class="form-label small fw-semibold">Attending Doctor *</label>
+                    <select class="form-select" id="history-doctor" required>
+                      <option value="Dr. Sanjay Ramani">Dr. Sanjay Ramani</option>
+                      <option value="Dr. Bhavna Pimpale">Dr. Bhavna Pimpale</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="history-diagnostics" class="form-label small fw-semibold">Diagnostic Findings / Notes</label>
+                    <textarea class="form-control" id="history-diagnostics" rows="2" placeholder="e.g. Mild decay in lower molar..."></textarea>
+                  </div>
+                  <div class="col-12">
+                    <label for="history-treatment" class="form-label small fw-semibold">Treatment Provided *</label>
+                    <input type="text" class="form-control" id="history-treatment" placeholder="e.g. Laser filling, Cleaning, veneers setup..." required>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="history-cost" class="form-label small fw-semibold">Cost Charged (INR ₹) *</label>
+                    <input type="number" class="form-control" id="history-cost" placeholder="e.g. 2500" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <label for="history-prescriptions" class="form-label small fw-semibold">Prescriptions / After-Care</label>
+                    <input type="text" class="form-control" id="history-prescriptions" placeholder="e.g. Painkiller twice daily for 3 days">
+                  </div>
+                  <div class="col-12 text-end mt-4">
+                    <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="collapse" data-bs-target="#newRecordFormContainer">Cancel</button>
+                    <button type="submit" class="btn btn-gradient px-4">Save Entry</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- History Timeline -->
+          <div class="p-4 bg-white border rounded-4 shadow-sm">
+            <h3 class="fw-bold text-primary mb-4"><i class="bi bi-clock-history me-2"></i>Treatment Timeline</h3>
+            <div id="timeline-container" class="py-3">
+              <div class="text-center py-5 text-muted">
+                <i class="bi bi-journal-x fs-1 d-block mb-3"></i>
+                Please search for a patient phone number on the left to view record timeline.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Timeline Loader & Form Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set today's date in form default
+      const dateInput = document.getElementById('history-date');
+      if (dateInput) {
+        dateInput.value = new Date().toISOString().split('T')[0];
+      }
+
+      // Check query parameter (e.g. ?phone=9821098210)
+      const urlParams = new URLSearchParams(window.location.search);
+      const phoneParam = urlParams.get('phone');
+      if (phoneParam) {
+        document.getElementById('search-phone').value = phoneParam;
+        searchPatient(phoneParam);
+      }
+
+      // Form Submit Handlers
+      document.getElementById('search-patient-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const phone = document.getElementById('search-phone').value.trim();
+        searchPatient(phone);
+      });
+
+      document.getElementById('new-history-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        saveNewHistory();
+      });
+    });
+
+    let activePatientPhone = '';
+
+    function searchPatient(phone) {
+      activePatientPhone = phone;
+      const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      const patientHistories = JSON.parse(localStorage.getItem('patient_histories') || '{}');
+      
+      // Find patient details from appointments database
+      const patientData = appointments.find(app => app.patientPhone === phone);
+      
+      const infoCard = document.getElementById('patient-info-card');
+      const timelineContainer = document.getElementById('timeline-container');
+
+      if (!patientData) {
+        // Patient hasn't booked through online scheduler
+        // Still allow creating records, just mock details
+        infoCard.style.display = 'block';
+        document.getElementById('profile-name').innerText = 'Walk-in Patient';
+        document.getElementById('profile-phone').innerText = phone;
+        document.getElementById('profile-email').innerText = 'N/A';
+      } else {
+        infoCard.style.display = 'block';
+        document.getElementById('profile-name').innerText = patientData.patientName;
+        document.getElementById('profile-phone').innerText = patientData.patientPhone;
+        document.getElementById('profile-email').innerText = patientData.patientEmail;
+      }
+
+      // Load chronological timeline
+      const histories = patientHistories[phone] || [];
+      
+      if (histories.length === 0) {
+        timelineContainer.innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <i class="bi bi-file-earmark-medical fs-1 d-block mb-3"></i>
+            No history logs found for this patient. Click "Add Visit Log" on the left to create the first record.
+          </div>
+        `;
+        return;
+      }
+
+      // Sort chronological: newest visit first
+      histories.sort((a,b) => new Date(b.visit_date.split('/').reverse().join('-')) - new Date(a.visit_date.split('/').reverse().join('-')));
+
+      timelineContainer.innerHTML = '<div class="timeline"></div>';
+      const timeline = timelineContainer.querySelector('.timeline');
+
+      histories.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'timeline-item';
+        itemDiv.innerHTML = `
+          <div class="p-3 border rounded-3 bg-light">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="badge bg-success-subtle text-success py-1 px-3">${item.visit_date}</span>
+              <strong class="text-primary small"><i class="bi bi-person-fill me-1"></i>${item.doctor_signature}</strong>
+            </div>
+            <h5 class="fw-bold mb-2 text-dark">${item.treatment_provided}</h5>
+            <p class="mb-2 small text-muted"><strong>Diagnostics:</strong> ${item.diagnostics || 'None recorded'}</p>
+            ${item.prescriptions ? `<p class="mb-2 small text-muted"><strong>Prescription:</strong> ${item.prescriptions}</p>` : ''}
+            <div class="border-top pt-2 mt-2 d-flex justify-content-between text-muted small">
+              <span>Treatment Cost:</span>
+              <strong class="text-dark">₹${parseFloat(item.cost_charged).toLocaleString('en-IN')}.00</strong>
+            </div>
+          </div>
+        `;
+        timeline.appendChild(itemDiv);
+      });
+    }
+
+    function saveNewHistory() {
+      if (!activePatientPhone) return;
+
+      const dateVal = document.getElementById('history-date').value;
+      const formattedDate = dateVal.split('-').reverse().join('/'); // Converts yyyy-mm-dd to dd/mm/yyyy
+
+      const entry = {
+        visit_date: formattedDate,
+        doctor_signature: document.getElementById('history-doctor').value,
+        diagnostics: document.getElementById('history-diagnostics').value,
+        treatment_provided: document.getElementById('history-treatment').value,
+        cost_charged: document.getElementById('history-cost').value,
+        prescriptions: document.getElementById('history-prescriptions').value
+      };
+
+      const patientHistories = JSON.parse(localStorage.getItem('patient_histories') || '{}');
+      if (!patientHistories[activePatientPhone]) {
+        patientHistories[activePatientPhone] = [];
+      }
+      patientHistories[activePatientPhone].push(entry);
+      localStorage.setItem('patient_histories', JSON.stringify(patientHistories));
+
+      // Reset form and close collapse
+      document.getElementById('new-history-form').reset();
+      document.getElementById('history-date').value = new Date().toISOString().split('T')[0];
+      
+      const collapseEl = document.getElementById('newRecordFormContainer');
+      const bsCollapse = bootstrap.Collapse.getInstance(collapseEl);
+      if (bsCollapse) bsCollapse.hide();
+
+      alert('Visit record successfully written to patient chart!');
+      searchPatient(activePatientPhone);
+    }
+  </script>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
